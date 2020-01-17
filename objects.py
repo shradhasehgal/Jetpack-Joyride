@@ -20,6 +20,11 @@ class Object():
 
     def yget(self):
         return self._posy
+    
+    def clear(self):
+        for i in range(self._width):
+            for j in range(self._height):
+                global_var.mp.matrix[j+self._posy][i+self._posx] = " "
 
 
 class Mando(Object):
@@ -47,6 +52,9 @@ class Mando(Object):
     
     def inc_score(self):
         self._score += 1
+    
+
+
 
 
 
