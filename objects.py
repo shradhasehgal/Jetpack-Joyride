@@ -60,10 +60,22 @@ class Mando(Object):
     def shield_off(self):
         self._shield = 0
 
+    def get_shield(self):
+        return self._shield
+
     def render(self):
-        for i in range(self._width):
-            for j in range(self._height):
-                global_var.mp.matrix[j+self._posy][i+self._posx] = "\033[1;32;" + self._shape[j][i] 
+        if self._shield == 1:
+            for i in range(self._width):
+                for j in range(self._height):
+                    global_var.mp.matrix[j+self._posy][i+self._posx] = self._shape[j][i]
+        
+        else:
+            for i in range(self._width):
+                for j in range(self._height):
+                    global_var.mp.matrix[j+self._posy][i+self._posx] = self._shape[j][i]
+
+            
+
 
 
 
