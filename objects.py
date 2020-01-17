@@ -34,6 +34,7 @@ class Mando(Object):
         self._lives = 5
         self._coins = 0
         self._score = 0
+        self._shield = 0
 
     def lives(self):
         return self._lives
@@ -53,7 +54,16 @@ class Mando(Object):
     def inc_score(self):
         self._score += 1
     
+    def shield_on(self):
+        self._shield = 1
 
+    def shield_off(self):
+        self._shield = 0
+
+    def render(self):
+        for i in range(self._width):
+            for j in range(self._height):
+                global_var.mp.matrix[j+self._posy][i+self._posx] = "\033[1;32;" + self._shape[j][i] 
 
 
 
