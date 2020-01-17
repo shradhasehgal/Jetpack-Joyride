@@ -4,9 +4,10 @@ import random
 import config
 import objects
 from time import time 
-from getch import _getChUnix as getChar
-from alarmexception import AlarmException
 import signal
+from getch import KBHit
+
+kb = KBHit()
 
 global_funct.create_board()
 global_var.mando.render()
@@ -15,28 +16,22 @@ global_funct.print_board()
 global_var.LAST_TIME = time()
 global_var.TIME_BEGUN = round(global_var.LAST_TIME)
 
+def remove_shield():
+    if global_var.mando.get_shield() == 1 and time() - global_var.mando.get_shield_time() > 10:
+        global_var.mando.set_shield(0)
+
+def allow_shield():
+    if global_var.mando.get_shield_allow() == 0 and time() - global_var.mando.get_shield_time() > 70:
+        global_var.mando.set_shield_allow(1)
+
+def move_board_back():
+    global_var.mp.start_index += 1
+    global_var.mando.xset(1)
 
 def movedin():
     # moves the player
 
-    def alarmhandler(signum, frame):
-        # ''' input method '''
-        raise AlarmException
-
-    def user_input(timeout=0.15):
-        # ''' input method '''
-        signal.signal(signal.SIGALRM, alarmhandler)
-        signal.setitimer(signal.ITIMER_REAL, timeout)
-        try:
-            text = getChar()()
-            signal.alarm(0)
-            return text
-        except AlarmException:
-            pass
-        signal.signal(signal.SIGALRM, signal.SIG_IGN)
-        return ''
-
-    char = user_input()
+    char = kb.getinput()
 
     if char == 'd':
         print("d")
@@ -47,14 +42,18 @@ def movedin():
     if char == 'w':
         print("w")
 
-    if char == ' ' and global_var.shield_allow == 1:
-        print("whee")
-    
+    if char == ' ' and global_var.mando.get_shield_allow() == 1:
+        global_var.mando.set_shield_allow(0)
+        global_var.mando.set_shield_time(time())
+        global_var.mando.set_shield(1)
+
     if char == 'e':
         print("bulle")
         
     if char == 'q':
     	quit()
+
+
 
 while True:
 
@@ -63,8 +62,16 @@ while True:
     if global_var.TIME_REM == 0:
         print("Time over!")
         break
+
+    remove_shield()
+    allow_shield()
+
+    global_var.mando.clear()
+    movedin()
+
+    if time() - global_var.LAST_TIME > 0.3:
+        move_board_back()
+        global_var.LAST_TIME = time()
     
-    # if time() - global_var.LAST_TIME > 0.04:
-    # global_var.mp.start_index += 1
-    # global_funct.print_board()
-    # global_var.LAST_TIME = time()
+    global_var.mando.render()
+    global_funct.print_board()

@@ -1,4 +1,4 @@
-''' To input characters from terminal without pressing enter key '''
+''' This block is used to input characters from terminal '''
 from __future__ import print_function
 
 
