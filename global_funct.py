@@ -81,3 +81,11 @@ def clear_boost(x, y):
         for j in range(7):
             if global_var.mp.matrix[y+i][x+j] == "B":
                 global_var.mp.matrix[y+i][x+j] = " "
+
+def gravity():
+
+    i = 1
+    global_var.mando.yset(i)
+
+    if global_var.mando.yget() >= global_var.mando_ground:
+        global_var.mando.ydset(global_var.mando_ground)

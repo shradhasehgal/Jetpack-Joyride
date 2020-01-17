@@ -16,6 +16,8 @@ global_funct.print_board()
 global_var.LAST_TIME = time()
 global_var.TIME_BEGUN = round(global_var.LAST_TIME)
 
+bullets = []
+
 def remove_shield():
     if global_var.mando.get_shield() == 1 and time() - global_var.mando.get_shield_time() > 10:
         global_var.mando.set_shield(0)
@@ -34,13 +36,16 @@ def movedin():
     char = kb.getinput()
 
     if char == 'd':
-        print("d")
+        if global_var.mando.xget() <= global_var.mp.start_index + config.columns - 6:
+            global_var.mando.xset(1)
 
     if char == 'a':
-        print("a")
+        if global_var.mando.xget() >= global_var.mp.start_index + 4:
+            global_var.mando.xset(-1)
 
     if char == 'w':
-        print("w")
+        if global_var.mando.yget() >= 5:
+            global_var.mando.yset(-1)
 
     if char == ' ' and global_var.mando.get_shield_allow() == 1:
         global_var.mando.set_shield_allow(0)
@@ -48,10 +53,13 @@ def movedin():
         global_var.mando.set_shield(1)
 
     if char == 'e':
-        print("bulle")
-        
+        bullet = objects.Object(config.bullet, global_var.mando.xget(), global_var.mando.yget())
+        bullets.append(bullet)
+        bullet.render()
+
     if char == 'q':
-    	quit()
+        print("Don't quit :(")
+        quit()
 
 
 
@@ -68,10 +76,12 @@ while True:
 
     global_var.mando.clear()
     movedin()
+    global_var.mando.check_collision()
 
     if time() - global_var.LAST_TIME > 0.3:
         move_board_back()
         global_var.LAST_TIME = time()
+        global_var.mando.check_collision()
     
     global_var.mando.render()
     global_funct.print_board()
