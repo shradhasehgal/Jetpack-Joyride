@@ -167,6 +167,18 @@ class Bullet(Object):
 
     def __init__(self, character ,x, y):
         super().__init__(character, x, y)
+
+    def render(self):
+        for i in range(self._width):
+            for j in range(self._height):
+                if global_var.mp.matrix[j+self._posy][i+self._posx] == " ":
+                    global_var.mp.matrix[j+self._posy][i+self._posx] = self._shape[j][i]
+
+    def clear(self):
+        for i in range(self._width):
+            for j in range(self._height):
+                if global_var.mp.matrix[j+self._posy][i+self._posx] == "-" or global_var.mp.matrix[j+self._posy][i+self._posx] == ">":
+                    global_var.mp.matrix[j+self._posy][i+self._posx] = " "
     
     def check_collision(self):
         for i in range(self._width):
