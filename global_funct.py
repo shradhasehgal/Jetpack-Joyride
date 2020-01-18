@@ -16,7 +16,6 @@ def print_board():
 
 
 
-
 bullets = []
 beams = []
 magnets = []
@@ -68,8 +67,8 @@ def create_board():
 def clear_beam(x, y):
     x -= 3 
     y -= 3
-    for i in range(7):
-        for j in range(7):
+    for i in range(9):
+        for j in range(9):
             if global_var.mp.matrix[y+i][x+j] == "#":
                 global_var.mp.matrix[y+i][x+j] = " "
 
@@ -78,8 +77,8 @@ def clear_boost(x, y):
     x -= 1
     y -= 1
 
-    for i in range(7):
-        for j in range(7):
+    for i in range(3):
+        for j in range(3):
             if global_var.mp.matrix[y+i][x+j] == "B":
                 global_var.mp.matrix[y+i][x+j] = " "
 

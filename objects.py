@@ -142,8 +142,10 @@ class Mando(Object):
                         global_var.mp.matrix[j+self._posy][i+self._posx] = " "
 
                     elif global_var.mp.matrix[j+self._posy][i+self._posx] == "#" or global_var.mp.matrix[j+self._posy][i+self._posx] == "M":
-                        
-                        if self._lives > 1:
+                        if self._shield == 1:
+                            global_funct.clear_beam(self._posx, self._posy)
+
+                        elif self._lives > 1:
                             self._lives -= 1
                             global_var.mp.start_index = 0
                             self._posx = 5
