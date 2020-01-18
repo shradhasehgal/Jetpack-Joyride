@@ -47,8 +47,14 @@ class Map(object):
         for y in range(3, self.height):
             pr = []
             for x in range(self.start_index, self.start_index + config.columns):
-                if global_var.mando.get_shield() == 1 and x >= global_var.mando.xget() and x <= global_var.mando.xget() + 2 and y >= global_var.mando.yget() and y <= global_var.mando.yget() + 2:
-                    pr.append("\033[1;32;40m"+(self.matrix[y][x] + Style.RESET_ALL))
+                if y == 3:
+                    pr.append(Fore.LIGHTCYAN_EX + Style.BRIGHT+(self.matrix[y][x] + Style.RESET_ALL))
+
+                elif y == self.height - 1:
+                    pr.append(Fore.LIGHTMAGENTA_EX + Style.BRIGHT+(self.matrix[y][x] + Style.RESET_ALL))
+                
+                elif global_var.mando.get_shield() == 1 and x >= global_var.mando.xget() and x <= global_var.mando.xget() + 2 and y >= global_var.mando.yget() and y <= global_var.mando.yget() + 2:
+                    pr.append(Fore.LIGHTGREEN_EX + Style.BRIGHT +(self.matrix[y][x] + Style.RESET_ALL))
                 else:
                     pr.append(self.matrix[y][x] + Style.RESET_ALL)
             print(''.join(pr))
