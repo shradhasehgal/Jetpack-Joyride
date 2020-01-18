@@ -1,6 +1,7 @@
 import global_var 
 import global_funct
 import config
+from time import time
 
 class Object():
     
@@ -94,6 +95,7 @@ class Mando(Object):
 
     def set_shield_time(self, x):    
         self._shield_time = x
+    
 
     def render(self):
         if self._shield == 1:
@@ -116,7 +118,7 @@ class Mando(Object):
                         self._coins += 1
                         global_var.mp.matrix[j+self._posy][i+self._posx] = " "
 
-                    elif global_var.mp.matrix[j+self._posy][i+self._posx] == "#":
+                    elif global_var.mp.matrix[j+self._posy][i+self._posx] == "#" or global_var.mp.matrix[j+self._posy][i+self._posx] == "M":
                         
                         if self._lives > 1:
                             self._lives -= 1
@@ -130,9 +132,10 @@ class Mando(Object):
 
                     elif global_var.mp.matrix[j+self._posy][i+self._posx] == "B":
                         global_funct.clear_boost(self._posx, self._posy)
-            
+                        global_var.mp.set_speedup_time(time())
+                        global_var.mp.set_speedup_flag(1)
+                        global_var.mp.set_speed(0.01)
 
 
-
-
+                    
 

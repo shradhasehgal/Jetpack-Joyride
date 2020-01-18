@@ -14,6 +14,28 @@ class Map(object):
         self.matrix = np.array([[" " for i in range(self.width)] for j in range(self.height)])
         self.create_sky()
         self.create_ground()
+        self._speed = 0.06
+        self._speedup_flag = 0
+        self ._speedup_time = 0
+
+    
+    def set_speed(self, x):
+        self._speed = x
+
+    def get_speed(self):
+        return self._speed
+
+    def set_speedup_flag(self, x):
+        self._speedup_flag = x
+
+    def get_speedup_flag(self):
+        return self._speedup_flag
+
+    def get_speedup_time(self):
+        return self._speedup_time
+    
+    def set_speedup_time(self, x):
+        self._speedup_time = x
 
     def render(self):
         for y in range(3, self.height):

@@ -30,6 +30,15 @@ def move_board_back():
     global_var.mp.start_index += 1
     global_var.mando.xset(1)
 
+def check_speedup_time():
+
+    if global_var.mp.get_speedup_flag() == 1 and time() - global_var.mp.get_speedup_time() > 10:
+        # print("happy")
+        # print(global_var.mp.get_speedup_time())
+        # print(time())
+        global_var.mp.set_speedup_flag(0)
+        global_var.mp.set_speed(0.06)
+
 def movedin():
     # moves the player
 
@@ -73,12 +82,12 @@ while True:
 
     remove_shield()
     allow_shield()
-
+    check_speedup_time()
     global_var.mando.clear()
     movedin()
     global_var.mando.check_collision()
 
-    if time() - global_var.LAST_TIME > 0.3:
+    if time() - global_var.LAST_TIME > global_var.mp.get_speed():
         move_board_back()
         global_var.LAST_TIME = time()
         global_var.mando.check_collision()

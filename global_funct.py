@@ -82,6 +82,16 @@ def clear_boost(x, y):
             if global_var.mp.matrix[y+i][x+j] == "B":
                 global_var.mp.matrix[y+i][x+j] = " "
 
+
+def clear_magnet(x, y):
+    x -= 5
+    y -= 2
+
+    for i in range(6):
+        for j in range(2):
+            if global_var.mp.matrix[y+i][x+j] == "M":
+                global_var.mp.matrix[y+i][x+j] = " "
+
 def gravity():
 
     i = 1
