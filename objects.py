@@ -78,8 +78,8 @@ class Mando(Object):
     def inc_coins(self):
         self._coins += 1
     
-    def inc_score(self):
-        self._score += 1
+    def inc_score(self, x):
+        self._score += x
     
     def set_shield(self, x):
         self._shield = x
@@ -139,11 +139,13 @@ class Mando(Object):
                     
                     if global_var.mp.matrix[j+self._posy][i+self._posx] == "$":
                         self._coins += 1
+                        self._score += 1
                         global_var.mp.matrix[j+self._posy][i+self._posx] = " "
 
                     elif global_var.mp.matrix[j+self._posy][i+self._posx] == "#" or global_var.mp.matrix[j+self._posy][i+self._posx] == "M":
                         if self._shield == 1:
                             global_funct.clear_beam(self._posx, self._posy)
+                            self._score += 5
 
                         elif self._lives > 1:
                             self._lives -= 1
@@ -187,3 +189,4 @@ class Bullet(Object):
                 for j in range(self._height):    
                     if global_var.mp.matrix[j+self._posy][i+self._posx] == "#":
                         global_funct.clear_beam(self._posx, self._posy)
+                        global_var.mando.inc_score(5)
