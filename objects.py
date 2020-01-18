@@ -1,7 +1,7 @@
 import global_var 
 import global_funct
 import config
-from time import time
+from time import time,sleep
 
 class Object():
     
@@ -53,6 +53,9 @@ class Mando(Object):
         self._shield = 0
         self._shield_allow = 1
         self._shield_time = 0
+        self._fall_speed = 0
+        self ._air_time = 0
+        self._air_pos = 0
 
     # def xset(self, x):
     #     self._posx += x
@@ -96,6 +99,26 @@ class Mando(Object):
     def set_shield_time(self, x):    
         self._shield_time = x
     
+    def get_fall_speed(self):
+        return self._fall_speed 
+
+    def inc_fall_speed(self):
+        self._fall_speed += 1
+
+    def set_fall_speed(self, x):
+        self._fall_speed = x
+    
+    def get_air_time(self):
+        return self._air_time
+
+    def set_air_time(self, x):
+        self._air_time = x
+
+    def get_air_pos(self):
+        return self._air_pos
+
+    def set_air_pos(self, x):
+        self._air_pos = x
 
     def render(self):
         if self._shield == 1:
@@ -134,8 +157,19 @@ class Mando(Object):
                         global_funct.clear_boost(self._posx, self._posy)
                         global_var.mp.set_speedup_time(time())
                         global_var.mp.set_speedup_flag(1)
-                        global_var.mp.set_speed(0.01)
+                        global_var.mp.set_speed(global_var.BOARD_SPEED_FAST)
+                        global_var.mp.set_bullet_speed(global_var.BULLET_SPEED_FAST)
 
 
                     
 
+class Bullet(Object):
+
+    def __init__(self, character ,x, y):
+        super().__init__(character, x, y)
+    
+    def check_collision(self):
+        for i in range(self._width):
+                for j in range(self._height):    
+                    if global_var.mp.matrix[j+self._posy][i+self._posx] == "#":
+                        global_funct.clear_beam(self._posx, self._posy)

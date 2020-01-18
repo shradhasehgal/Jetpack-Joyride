@@ -4,6 +4,7 @@ import os
 import global_var
 from colorama import Fore, Back, Style
 import objects
+from time import time
 
 def create_header():
     print("\033[2;1H" + Fore.WHITE + Back.BLUE + Style.BRIGHT + ("SCORE: " + str(global_var.mando.score()) + "   |  COINS: " + str(global_var.mando.coins()) + "   |  LIVES: " + str(global_var.mando.lives()) + "   |  TIME: " +str(global_var.TIME_REM))  .center(config.columns), end='')
@@ -92,10 +93,23 @@ def clear_magnet(x, y):
             if global_var.mp.matrix[y+i][x+j] == "M":
                 global_var.mp.matrix[y+i][x+j] = " "
 
+
+def remove_shield():
+    if global_var.mando.get_shield() == 1 and time() - global_var.mando.get_shield_time() > 10:
+        global_var.mando.set_shield(0)
+
+def allow_shield():
+    if global_var.mando.get_shield_allow() == 0 and time() - global_var.mando.get_shield_time() > 70:
+        global_var.mando.set_shield_allow(1)
+
+def move_board_back():
+    global_var.mp.start_index += 1
+    global_var.mando.xset(1)
+
 def gravity():
 
-    i = 1
-    global_var.mando.yset(i)
-
-    if global_var.mando.yget() >= global_var.mando_ground:
+    global_var.mando.yset(global_var.mando.get_fall_speed())
+    print(global_var.mando.get_fall_speed())
+    if global_var.mando.yget() > global_var.mando_ground:
         global_var.mando.ydset(global_var.mando_ground)
+    global_var.mando.inc_fall_speed()

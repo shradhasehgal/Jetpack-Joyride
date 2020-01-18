@@ -3,7 +3,7 @@ import global_funct
 import random
 import config
 import objects
-from time import time, sleep
+from time import time 
 import signal
 from getch import KBHit
 from global_var import mando
@@ -24,11 +24,11 @@ def check_speedup_time():
 
     if global_var.mp.get_speedup_flag() == 1 and time() - global_var.mp.get_speedup_time() > 10:
         global_var.mp.set_speedup_flag(0)
-        global_var.mp.set_speed(global_var.BOARD_SPEED)
-        global_var.mp.set_bullet_speed(global_var.BULLET_SPEED)
+        global_var.mp.set_speed(0.06)
 
 def movedin():
     # moves the player
+
     char = kb.getinput()
 
     if char == 'd':
@@ -36,7 +36,7 @@ def movedin():
             mando.xset(1)
 
     if char == 'a':
-        if mando.xget() > global_var.mp.start_index + 4:
+        if mando.xget() >= global_var.mp.start_index + 4:
             mando.xset(-1)
 
     if char == 'w':
@@ -54,35 +54,14 @@ def movedin():
         mando.set_shield(1)
 
     if char == 'e':
-        bullet = objects.Bullet(config.bullet, mando.xget() + 4, mando.yget()+1)
-        bullet.render()
+        bullet = objects.Object(config.bullet, mando.xget(), mando.yget())
         bullets.append(bullet)
+        bullet.render()
 
     if char == 'q':
         print("Don't quit :(")
         quit()
 
-def bullets_move():
-    i = 0
-    no_bullets = len(bullets)
-
-    while i < no_bullets:
-        bullets[i].clear()
-        if bullets[i].xget() < global_var.mp.start_index + config.columns:
-            bullets[i].xset(2)
-            bullets[i].check_collision()
-            i += 1
-
-        else:
-            del(bullets[i])
-            no_bullets -=1
-    
-    i = 0
-    while i < no_bullets:
-        bullets[i].render()
-        i += 1
-
-bullet_time = time()
 while True:
 
     global_var.TIME_REM = global_var.TIME_TOTAL - round(time()) + global_var.TIME_BEGUN
@@ -105,15 +84,20 @@ while True:
         if posn > global_var.mando_ground:
             posn = global_var.mando_ground
 
+        print(posn)
         mando.ydset(posn)
 
-    if time() - bullet_time > global_var.mp.get_bullet_speed():
-        print(global_var.mp.get_bullet_speed())
-        bullets_move()
-        bullet_time = time()
+
+    # if mando.yget() < global_var.mando_ground and time() - global_var.FLY_TIME > 0.2:
+    #     gravity()
+    #     global_var.FLY_TIME = time()
+    #     mando.check_collision()
+
+
+        # else: 
+        #     mando.inc_fall_speed()
 
     if time() - global_var.LAST_TIME > global_var.mp.get_speed():
-        print(global_var.mp.get_speed())
         move_board_back()
         global_var.LAST_TIME = time()
         mando.check_collision()
