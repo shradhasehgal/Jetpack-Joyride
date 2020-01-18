@@ -24,7 +24,7 @@ boosts = []
 
 def create_board():
 
-    i = 1
+    i = 0
     x = 10
     
     while x < global_var.mp.width - 200:
@@ -38,7 +38,7 @@ def create_board():
         enemy.render()
         
         #magnets
-        if i % 10 == 0:
+        if i % 2 == 0:
             magnet = objects.Object(config.magnet, x + 10 , y)
             magnets.append(magnet)
             magnet.render()

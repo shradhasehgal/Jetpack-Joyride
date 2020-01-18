@@ -56,6 +56,7 @@ class Mando(Object):
         self._fall_speed = 0
         self ._air_time = 0
         self._air_pos = 0
+        self._under_magnet = 0
 
     # def xset(self, x):
     #     self._posx += x
@@ -120,6 +121,12 @@ class Mando(Object):
     def set_air_pos(self, x):
         self._air_pos = x
 
+    def get_under_magnet(self):
+        return self._under_magnet 
+    
+    def set_under_magnet(self, x):
+        self._under_magnet = x
+
     def render(self):
         if self._shield == 1:
             for i in range(self._width):
@@ -164,6 +171,7 @@ class Mando(Object):
                         global_var.mp.set_speed(global_var.BOARD_SPEED_FAST)
                         global_var.mp.set_bullet_speed(global_var.BULLET_SPEED_FAST)
 
+            
 
                     
 
