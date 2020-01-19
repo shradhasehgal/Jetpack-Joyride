@@ -15,6 +15,7 @@ class Object():
     def render(self):
         for i in range(self._width):
             for j in range(self._height):
+                # print(j+self._posy, i+self._posx)
                 global_var.mp.matrix[j+self._posy][i+self._posx] = self._shape[j][i]
 
     def xget(self):

@@ -2,6 +2,7 @@ import os
 import sys
 import termios, tty, time
 from colorama import init, Fore, Back, Style
+import objects
 
 columns = 150
 rows = 50
@@ -37,3 +38,42 @@ magnet = [ ["M", "M", "M", "M", "M"], ["M", "M", "M", "M", "M"] ]
 coins = [["$","$", "$", "$","$", "$"]]
 
 bullet = [["-", ">"]]
+
+# g = """             
+# /     \\
+#                    ((     ))
+#                ===  \\\_v_//  ===
+#                  ====)_^_(====
+#                  ===/ O O \===
+#                  = | /_ _\ | =
+#                 =   \/_ _\/   =
+#                      \_ _/
+#                      (o_o) """
+
+g = """         /\_/\\         
+     /\  |6 6|  /\\          
+    /  \ \<">/ /  \\          
+   / ,__`~)-(~___, \\           
+  /.',-'`/_/`'-,  '.\\           
+   ,'    \_\    ',              
+  :       \|\     ;             
+   ',     /|/    ,'             
+    '-,__ \W\_,-))                
+               ((                 
+                )                  
+                """
+dragon = []
+
+def create_dragon():
+  arr = []
+  for i in g:
+    if i != '\n':
+      arr.append(i)
+    else:
+      dragon.append(arr)
+      arr = []
+
+    # for i in dragon:
+    #   for j in i:
+    #     print(j,end="")
+    #   print()

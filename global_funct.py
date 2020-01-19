@@ -24,8 +24,12 @@ boosts = []
 
 def create_board():
 
-    i = 0
+    i = 1
     x = 10
+    config.create_dragon()
+    dragon = objects.Object(config.dragon, global_var.mp.width - 80, global_var.mando_ground - 20)
+    dragon.render()
+
     
     while x < global_var.mp.width - 200:
 
@@ -38,7 +42,7 @@ def create_board():
         enemy.render()
         
         #magnets
-        if i % 2 == 0:
+        if i % 10 == 0:
             magnet = objects.Object(config.magnet, x + 10 , y)
             magnets.append(magnet)
             magnet.render()
@@ -63,6 +67,9 @@ def create_board():
 
         x += random.randint(20, 50)
 
+
+
+
         
 def clear_beam(x, y):
     x -= 3 
@@ -77,8 +84,8 @@ def clear_boost(x, y):
     x -= 1
     y -= 1
 
-    for i in range(3):
-        for j in range(3):
+    for i in range(5):
+        for j in range(5):
             if global_var.mp.matrix[y+i][x+j] == "B":
                 global_var.mp.matrix[y+i][x+j] = " "
 
@@ -102,12 +109,11 @@ def allow_shield():
         global_var.mando.set_shield_allow(1)
 
 def move_board_back():
-    if global_var.mp.start_index < 300:
+    if global_var.mp.start_index < global_var.mp.width - 200:
         global_var.mp.start_index += 1
-    global_var.mando.xset(1)
+        global_var.mando.xset(1)
 
 def gravity():
-
     global_var.mando.yset(global_var.mando.get_fall_speed())
     print(global_var.mando.get_fall_speed())
     if global_var.mando.yget() > global_var.mando_ground:

@@ -84,6 +84,7 @@ def bullets_move():
 
 bullet_time = time()
 mag_time = time()
+config.create_dragon() 
 while True:
 
     global_var.TIME_REM = global_var.TIME_TOTAL - round(time()) + global_var.TIME_BEGUN
