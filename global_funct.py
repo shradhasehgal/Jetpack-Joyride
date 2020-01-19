@@ -26,12 +26,9 @@ def create_board():
 
     i = 1
     x = 10
-    config.create_dragon()
-    dragon = objects.Object(config.dragon, global_var.mp.width - 80, global_var.mando_ground - 20)
-    dragon.render()
 
     
-    while x < global_var.mp.width - 200:
+    while x < global_var.mp.width - 250:
 
         no = random.randint(0, 3)
         y = random.randint(10, global_var.mp.height-15)
@@ -49,6 +46,9 @@ def create_board():
         
         i += 1
         x += random.randint(20, 30)
+        if x > global_var.mp.width - 250:
+            break
+            
         y = random.randint(10, global_var.mp.height-15)
 
         #coins

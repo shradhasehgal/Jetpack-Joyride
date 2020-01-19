@@ -6,13 +6,14 @@ import objects
 from time import time, sleep
 import signal
 from getch import KBHit
-from global_var import mando
+from global_var import mando, dragon
 from global_funct import remove_shield, allow_shield, move_board_back, gravity
 
 kb = KBHit()
 
 global_funct.create_board()
 mando.render()
+dragon.render()
 global_funct.print_board()
 
 global_var.LAST_TIME = time()
@@ -82,6 +83,18 @@ def bullets_move():
         bullets[i].render()
         i += 1
 
+def bullet_dragon_col():
+    i = 0
+    no_bullets = len(bullets)
+
+    while i < no_bullets:
+        if bullets[i].check_drag_collision() == 1:
+            bullets[i].clear()
+            del(bullets[i])
+            no_bullets -= 1
+        else:
+            i += 1
+
 bullet_time = time()
 mag_time = time()
 config.create_dragon() 
@@ -93,6 +106,7 @@ while True:
         print("Time over!")
         break
 
+    print(global_var.mp.start_index)
     remove_shield()
     allow_shield()
     check_speedup_time()
@@ -145,6 +159,19 @@ while True:
         move_board_back()
         global_var.LAST_TIME = time()
         mando.check_collision()
-    
+
+    # dragon.check_collision()
+    dragon.clear()
+    if global_var.mp.start_index >= 970:
+        if mando.yget() <= 36:
+            dragon.ydset(mando.yget())
+        else:
+            dragon.ydset(36)
+        
+        bullet_dragon_col()
+
+    # if global_var.mp.start_index == 1000:
+
+    dragon.render()
     mando.render()
     global_funct.print_board()

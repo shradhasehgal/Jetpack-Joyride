@@ -150,16 +150,22 @@ class Mando(Object):
                         self._score += 1
                         global_var.mp.matrix[j+self._posy][i+self._posx] = " "
 
-                    elif global_var.mp.matrix[j+self._posy][i+self._posx] == "#" or global_var.mp.matrix[j+self._posy][i+self._posx] == "M":
+                    elif global_var.mp.matrix[j+self._posy][i+self._posx] == "#" or global_var.mp.matrix[j+self._posy][i+self._posx] == "M" or global_var.mp.matrix[j+self._posy][i+self._posx] == "o":
                         if self._shield == 1:
                             global_funct.clear_beam(self._posx, self._posy)
                             self._score += 5
 
                         elif self._lives > 1:
                             self._lives -= 1
-                            global_var.mp.start_index = 0
-                            self._posx = 5
-                            self._posy = global_var.mp.height - len(config.mando) - 1
+
+                            if global_var.mp.start_index != 1000:
+                                global_var.mp.start_index = 0
+                                self._posx = 5
+                                self._posy = global_var.mp.height - len(config.mando) - 1
+                            else:
+                                self._posx = global_var.mp.start_index + 5
+                                self._posy = 5
+
 
                         else:
                             print("Oops, you lost!")
@@ -184,7 +190,11 @@ class Bullet(Object):
     def render(self):
         for i in range(self._width):
             for j in range(self._height):
-                if global_var.mp.matrix[j+self._posy][i+self._posx] == " ":
+                if global_var.mp.start_index < 1000:
+                    if global_var.mp.matrix[j+self._posy][i+self._posx] == " ":
+                        global_var.mp.matrix[j+self._posy][i+self._posx] = self._shape[j][i]
+                
+                else:
                     global_var.mp.matrix[j+self._posy][i+self._posx] = self._shape[j][i]
 
     def clear(self):
@@ -195,7 +205,52 @@ class Bullet(Object):
     
     def check_collision(self):
         for i in range(self._width):
-                for j in range(self._height):    
-                    if global_var.mp.matrix[j+self._posy][i+self._posx] == "#":
-                        global_funct.clear_beam(self._posx, self._posy)
-                        global_var.mando.inc_score(5)
+            for j in range(self._height):    
+                if global_var.mp.matrix[j+self._posy][i+self._posx] == "#":
+                    global_funct.clear_beam(self._posx, self._posy)
+                    global_var.mando.inc_score(5)
+
+    def check_drag_collision(self):
+        flag = 1
+        for i in range(len(config.dragon[0])):
+            for j in range(len(config.dragon)):
+                if j + global_var.dragon.yget() == self._posy:
+                    if i + global_var.dragon.xget() == self._posx or i + global_var.dragon.xget() == self._posx + 1:
+                        global_var.dragon.collision()
+                        flag = 0
+
+        if flag == 0:
+            return 1 
+
+class Dragon(Object):
+
+    def __init__(self, character ,x, y):
+        super().__init__(character, x, y)
+        self._bullet_speed = 0.5
+        self._lives = 5
+
+    def render(self):
+        for i in range(self._width):
+            for j in range(self._height):
+                if global_var.mp.matrix[j+self._posy][i+self._posx] == " ":
+                    global_var.mp.matrix[j+self._posy][i+self._posx] = self._shape[j][i]
+
+    def clear(self):
+        for i in range(self._width):
+            for j in range(self._height):
+                # if global_var.mp.matrix[j+self._posy][i+self._posx] == "o":
+                global_var.mp.matrix[j+self._posy][i+self._posx] = " "
+    
+    def print_lives(self):
+        i = 10 - 2*self._lives
+        while i > 0:
+            self._shape[0][17-i] = " "
+            i -= 1
+        
+        if self._lives == 0:
+            quit()
+
+    def collision(self):
+        self._lives -= 1
+        self.print_lives()
+
