@@ -109,14 +109,12 @@ def bullet_dragon_col():
 
     while i < no_bullets:
         if bullets[i].check_drag_collision() == 1:
-            print(mando.yget())
             bullets[i].clear()
             del(bullets[i])
             no_bullets -= 1
         else:
             i += 1
 
-        print(mando.yget())
 
 def bullet_mando_col():
     i = 0
@@ -129,6 +127,9 @@ def bullet_mando_col():
             no_bullets -= 1
         else:
             i += 1
+
+
+
 
     
 bullet_time = time()
@@ -215,10 +216,11 @@ while True:
             dragon.set_bullet_time(time())
             # drag_bullets_move()
         
-    # if global_var.mp.start_index == 1000:
-    bullet_mando_col()
+    if global_var.mp.start_index == 1000:
+        bullet_mando_col()
+
     mando.render()
-    # dragon.render()
+    dragon.render()
     global_funct.print_board()
         
     if dragon.get_lives() == 0:

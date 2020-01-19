@@ -150,7 +150,7 @@ class Mando(Object):
                     self._score += 1
                     global_var.mp.matrix[j+self._posy][i+self._posx] = " "
 
-                elif global_var.mp.matrix[j+self._posy][i+self._posx] == "#" or global_var.mp.matrix[j+self._posy][i+self._posx] == "M":
+                elif global_var.mp.matrix[j+self._posy][i+self._posx] == "#" or global_var.mp.matrix[j+self._posy][i+self._posx] == "M" or global_var.mp.matrix[j+self._posy][i+self._posx] == "o": 
                     if self._shield == 1:
                         global_funct.clear_beam(self._posx, self._posy)
                         self._score += 5
@@ -165,7 +165,7 @@ class Mando(Object):
                         else:
                             self._posx = global_var.mp.start_index + 5
                             self._posy = 5
-                            f = 1
+                            return
 
 
                     else:
@@ -227,7 +227,7 @@ class Dragon(Object):
 
     def __init__(self, character ,x, y):
         super().__init__(character, x, y)
-        self._bullet_speed = 2
+        self._bullet_speed = 3
         self._lives = 5
         self._bullet_time = 0
 
@@ -278,7 +278,7 @@ class Dragon_Bullet(Object):
             for j in range(len(config.mando)):  
                 if global_var.mando.yget()+j == self._posy and global_var.mando.xget()+i == self._posx:
                     global_var.mando.red_lives()
-                    global_var.mando.ydset(5)
+                    # global_var.mando.ydset(40)
                     global_var.mando.xdset(global_var.mp.start_index + 5)
                     self._foo = 1
                     break                
