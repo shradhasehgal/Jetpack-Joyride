@@ -20,10 +20,11 @@ global_var.LAST_TIME = time()
 global_var.TIME_BEGUN = round(global_var.LAST_TIME)
 
 bullets = []
+dragon_bullets = []
 
 magnet_flag = 0
 magnet_up = 0
-
+po = 0
 def check_speedup_time():
 
     if global_var.mp.get_speedup_flag() == 1 and time() - global_var.mp.get_speedup_time() > 10:
@@ -83,30 +84,66 @@ def bullets_move():
         bullets[i].render()
         i += 1
 
+def drag_bullets_move():
+    i = 0
+    no_bullets = len(dragon_bullets)
+
+    while i < no_bullets:
+        dragon_bullets[i].clear()
+        if dragon_bullets[i].xget() >= global_var.mp.start_index:
+            dragon_bullets[i].xset(-1)
+            i += 1
+
+        else:
+            del(dragon_bullets[i])
+            no_bullets -=1
+    
+    i = 0
+    while i < no_bullets:
+        dragon_bullets[i].render()
+        i += 1
+
 def bullet_dragon_col():
     i = 0
     no_bullets = len(bullets)
 
     while i < no_bullets:
         if bullets[i].check_drag_collision() == 1:
+            print(mando.yget())
             bullets[i].clear()
             del(bullets[i])
             no_bullets -= 1
         else:
             i += 1
 
+        print(mando.yget())
+
+def bullet_mando_col():
+    i = 0
+    no_bullets = len(dragon_bullets)
+
+    while i < no_bullets:
+        if dragon_bullets[i].check_mando_collision() == 1:
+            dragon_bullets[i].clear()
+            del(dragon_bullets[i])
+            no_bullets -= 1
+        else:
+            i += 1
+
+    
 bullet_time = time()
 mag_time = time()
 config.create_dragon() 
+f = 1
+
 while True:
 
     global_var.TIME_REM = global_var.TIME_TOTAL - round(time()) + global_var.TIME_BEGUN
-
     if global_var.TIME_REM == 0:
         print("Time over!")
         break
 
-    print(global_var.mp.start_index)
+    # print(global_var.mp.start_index)
     remove_shield()
     allow_shield()
     check_speedup_time()
@@ -149,15 +186,16 @@ while True:
         mando.check_collision()
 
     if time() - bullet_time > global_var.mp.get_bullet_speed():
-        print(global_var.mp.get_bullet_speed())
+        # print(global_var.mp.get_bullet_speed())
         bullets_move()
         bullet_time = time()
 
 
     if time() - global_var.LAST_TIME > global_var.mp.get_speed():
-        print(global_var.mp.get_speed())
+        # print(global_var.mp.get_speed())
         move_board_back()
         global_var.LAST_TIME = time()
+        drag_bullets_move()
         mando.check_collision()
 
     # dragon.check_collision()
@@ -166,12 +204,23 @@ while True:
         if mando.yget() <= 36:
             dragon.ydset(mando.yget())
         else:
-            dragon.ydset(36)
-        
+            dragon.ydset(36)        
         bullet_dragon_col()
 
-    # if global_var.mp.start_index == 1000:
+        if time() - dragon.get_bullet_time() > dragon.get_bullet_speed():
 
-    dragon.render()
+            drag_bullet = objects.Dragon_Bullet(["o"],dragon.xget() -1, dragon.yget()+3)
+            drag_bullet.render()
+            dragon_bullets.append(drag_bullet)
+            dragon.set_bullet_time(time())
+            # drag_bullets_move()
+        
+    # if global_var.mp.start_index == 1000:
+    bullet_mando_col()
     mando.render()
+    # dragon.render()
     global_funct.print_board()
+        
+    if dragon.get_lives() == 0:
+        print("You won!")
+        quit()

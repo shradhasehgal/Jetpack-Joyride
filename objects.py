@@ -141,42 +141,43 @@ class Mando(Object):
 
     
     def check_collision(self):
-        
+
         for i in range(self._width):
-                for j in range(self._height):
-                    
-                    if global_var.mp.matrix[j+self._posy][i+self._posx] == "$":
-                        self._coins += 1
-                        self._score += 1
-                        global_var.mp.matrix[j+self._posy][i+self._posx] = " "
+            for j in range(self._height):
+                
+                if global_var.mp.matrix[j+self._posy][i+self._posx] == "$":
+                    self._coins += 1
+                    self._score += 1
+                    global_var.mp.matrix[j+self._posy][i+self._posx] = " "
 
-                    elif global_var.mp.matrix[j+self._posy][i+self._posx] == "#" or global_var.mp.matrix[j+self._posy][i+self._posx] == "M" or global_var.mp.matrix[j+self._posy][i+self._posx] == "o":
-                        if self._shield == 1:
-                            global_funct.clear_beam(self._posx, self._posy)
-                            self._score += 5
+                elif global_var.mp.matrix[j+self._posy][i+self._posx] == "#" or global_var.mp.matrix[j+self._posy][i+self._posx] == "M":
+                    if self._shield == 1:
+                        global_funct.clear_beam(self._posx, self._posy)
+                        self._score += 5
 
-                        elif self._lives > 1:
-                            self._lives -= 1
+                    elif self._lives > 1:
+                        self._lives -= 1
 
-                            if global_var.mp.start_index != 1000:
-                                global_var.mp.start_index = 0
-                                self._posx = 5
-                                self._posy = global_var.mp.height - len(config.mando) - 1
-                            else:
-                                self._posx = global_var.mp.start_index + 5
-                                self._posy = 5
-
-
+                        if global_var.mp.start_index != 1000:
+                            global_var.mp.start_index = 0
+                            self._posx = 5
+                            self._posy = global_var.mando_ground
                         else:
-                            print("Oops, you lost!")
-                            quit()                
+                            self._posx = global_var.mp.start_index + 5
+                            self._posy = 5
+                            f = 1
 
-                    elif global_var.mp.matrix[j+self._posy][i+self._posx] == "B":
-                        global_funct.clear_boost(self._posx, self._posy)
-                        global_var.mp.set_speedup_time(time())
-                        global_var.mp.set_speedup_flag(1)
-                        global_var.mp.set_speed(global_var.BOARD_SPEED_FAST)
-                        global_var.mp.set_bullet_speed(global_var.BULLET_SPEED_FAST)
+
+                    else:
+                        print("Oops, you lost!")
+                        quit()                
+
+                elif global_var.mp.matrix[j+self._posy][i+self._posx] == "B":
+                    global_funct.clear_boost(self._posx, self._posy)
+                    global_var.mp.set_speedup_time(time())
+                    global_var.mp.set_speedup_flag(1)
+                    global_var.mp.set_speed(global_var.BOARD_SPEED_FAST)
+                    global_var.mp.set_bullet_speed(global_var.BULLET_SPEED_FAST)
 
             
 
@@ -226,9 +227,22 @@ class Dragon(Object):
 
     def __init__(self, character ,x, y):
         super().__init__(character, x, y)
-        self._bullet_speed = 0.5
+        self._bullet_speed = 2
         self._lives = 5
+        self._bullet_time = 0
 
+    def get_lives(self):
+        return self._lives
+    
+    def get_bullet_speed(self):
+        return self._bullet_speed
+    
+    def get_bullet_time(self):
+        return self._bullet_time 
+    
+    def set_bullet_time(self, x):
+        self._bullet_time = x
+        
     def render(self):
         for i in range(self._width):
             for j in range(self._height):
@@ -238,19 +252,35 @@ class Dragon(Object):
     def clear(self):
         for i in range(self._width):
             for j in range(self._height):
-                # if global_var.mp.matrix[j+self._posy][i+self._posx] == "o":
                 global_var.mp.matrix[j+self._posy][i+self._posx] = " "
     
     def print_lives(self):
-        i = 10 - 2*self._lives
+        i = 10 - 2*self._lives        
         while i > 0:
             self._shape[0][17-i] = " "
             i -= 1
-        
-        if self._lives == 0:
-            quit()
+
 
     def collision(self):
         self._lives -= 1
         self.print_lives()
 
+class Dragon_Bullet(Object):
+
+    def __init__(self, character ,x, y):
+        super().__init__(character, x, y)   
+        self._foo = 0
+    
+    def check_mando_collision(self):
+        for i in range(len(config.mando[0])):
+            if self._foo == 1:
+                break
+            for j in range(len(config.mando)):  
+                if global_var.mando.yget()+j == self._posy and global_var.mando.xget()+i == self._posx:
+                    global_var.mando.red_lives()
+                    global_var.mando.ydset(5)
+                    global_var.mando.xdset(global_var.mp.start_index + 5)
+                    self._foo = 1
+                    break                
+
+        return self ._foo
