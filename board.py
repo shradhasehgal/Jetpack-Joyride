@@ -7,7 +7,7 @@ import global_var
 class Map(object):
 
     height = int(config.rows) 
-    width = int(config.columns*10)
+    width = int(config.columns*3)
 
     def __init__(self):
         self.start_index = 0

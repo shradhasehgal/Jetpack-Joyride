@@ -104,6 +104,8 @@ while True:
             magnet_flag = 1
             if mag.yget() < mando.yget():
                 magnet_up = 1
+            else:
+                magnet_up = 0
              
 
     if magnet_flag == 1 and time() - mag_time > global_var.MAGNET_SPEED:
@@ -112,7 +114,7 @@ while True:
             if mando.yget() >= 5:
                 mando.yset(-1)
 
-        else: 
+        else:
             mando.yset(1)
 
     mando.check_collision()

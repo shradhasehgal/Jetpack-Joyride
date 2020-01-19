@@ -102,7 +102,8 @@ def allow_shield():
         global_var.mando.set_shield_allow(1)
 
 def move_board_back():
-    global_var.mp.start_index += 1
+    if global_var.mp.start_index < 300:
+        global_var.mp.start_index += 1
     global_var.mando.xset(1)
 
 def gravity():
