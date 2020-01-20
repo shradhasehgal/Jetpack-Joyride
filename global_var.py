@@ -25,3 +25,4 @@ BOARD_SPEED_FAST = 0.06
 MAGNET_SPEED = 0.02
 
 message = ""
+magnet_flag = 0

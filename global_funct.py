@@ -32,6 +32,7 @@ beams = []
 magnets = []
 coins = []
 boosts = []
+dragon_bullets = []
 
 def create_board():
 
@@ -127,9 +128,8 @@ def move_board_back(magnet_flag):
         if magnet_flag == 0:
             global_var.mando.xset(1)
 
-def gravity():
-    global_var.mando.yset(global_var.mando.get_fall_speed())
-    print(global_var.mando.get_fall_speed())
-    if global_var.mando.yget() > global_var.mando_ground:
-        global_var.mando.ydset(global_var.mando_ground)
-    global_var.mando.inc_fall_speed()
+def check_speedup_time():
+    if global_var.mp.get_speedup_flag() == 1 and time() - global_var.mp.get_speedup_time() > 10:
+        global_var.mp.set_speedup_flag(0)
+        global_var.mp.set_speed(global_var.BOARD_SPEED)
+        global_var.mp.set_bullet_speed(global_var.BULLET_SPEED)

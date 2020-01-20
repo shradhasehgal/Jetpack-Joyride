@@ -7,7 +7,8 @@ from time import time, sleep
 import signal
 from getch import KBHit
 from global_var import mando, dragon
-from global_funct import remove_shield, allow_shield, move_board_back, gravity
+from global_funct import remove_shield, allow_shield, move_board_back, check_speedup_time, dragon_bullets, bullets
+import inputs 
 
 kb = KBHit()
 
@@ -19,51 +20,11 @@ global_funct.print_board()
 global_var.LAST_TIME = time()
 global_var.TIME_BEGUN = round(global_var.LAST_TIME)
 
-bullets = []
-dragon_bullets = []
 
 magnet_flag = 0
 magnet_up = 0
 po = 0
-def check_speedup_time():
 
-    if global_var.mp.get_speedup_flag() == 1 and time() - global_var.mp.get_speedup_time() > 10:
-        global_var.mp.set_speedup_flag(0)
-        global_var.mp.set_speed(global_var.BOARD_SPEED)
-        global_var.mp.set_bullet_speed(global_var.BULLET_SPEED)
-
-def movedin():
-    # moves the player
-    char = kb.getinput()
-
-    if char == 'd':
-        if mando.xget() <= global_var.mp.start_index + config.columns - 6:
-            mando.xset(1)
-
-    if char == 'a':
-        if mando.xget() > global_var.mp.start_index + 4:
-            mando.xset(-1)
-
-    if char == 'w' and magnet_flag == 0:
-        if mando.yget() >= 5:
-            mando.yset(-1)
-            mando.set_air_pos(mando.yget())
-            mando.set_air_time(time())
-
-    if char == ' ' and mando.get_shield_allow() == 1:
-        mando.set_shield_allow(0)
-        mando.set_shield_time(time())
-        mando.set_shield(1)
-
-    if char == 'e':
-        bullet = objects.Bullet(config.bullet, mando.xget() + 4, mando.yget()+1)
-        bullet.render()
-        bullets.append(bullet)
-
-    if char == 'q':
-        message = "Y U Quit :'("
-        global_funct.display_ending(message)
-        quit()
 
 def bullets_move():
     i = 0
@@ -151,15 +112,15 @@ while True:
     check_speedup_time()
     mando.clear()
 
-    movedin()
+    inputs.movedin()
     mando.check_collision()
 
-    magnet_flag = 0
+    global_var.magnet_flag = 0
     magnet_right = 0
     for mag in global_funct.magnets:
         if mag.xget() >= global_var.mp.start_index and mag.xget() <= global_var.mp.start_index + config.columns:
-            magnet_flag = 1
-            if mag.xget() >= mando.xget():
+            global_var.magnet_flag = 1
+            if mag.xget() > mando.xget():
                 magnet_right = 1
             else:
                 magnet_right = 0
@@ -182,16 +143,16 @@ while True:
     #         mando.yset(1)
 
 
-    if magnet_flag == 1 and time() - mag_time > global_var.MAGNET_SPEED:
-        mag_time = time()
-        if magnet_right == 1:
-            if mando.xget() < global_var.mp.start_index + config.columns - 5:
-                mando.xset(1)
-        else:
-            if mando.xget() > global_var.mp.start_index + 5:
-                mando.xset(-1)
+    # if global_var.magnet_flag == 1 and time() - mag_time > global_var.mp.get_speed():
+    #     mag_time = time()
+    #     if magnet_right == 1:
+    #         if mando.xget() < global_var.mp.start_index + config.columns - 5:
+    #             mando.xset(1)
+    #     else:
+    #         if mando.xget() > global_var.mp.start_index + 5:
+    #             mando.xset(-1)
 
-    mando.check_collision()
+    # mando.check_collision()
 
 
     # mando.check_magnet()
@@ -222,7 +183,19 @@ while True:
 
     if time() - global_var.LAST_TIME > global_var.mp.get_speed():
         # print(global_var.mp.get_speed())
-        move_board_back(magnet_flag)
+        if global_var.magnet_flag == 1:
+            print("wheee")
+            if magnet_right == 1:
+                print("qhooo")
+                if mando.xget() < global_var.mp.start_index + config.columns - 5:
+                    mando.xset(2)
+            # else:
+            #     if mando.xget() > global_var.mp.start_index + 5:
+            #         mando.xset(-1)
+            
+            global_var.mp.start_index += 1
+        else:
+            move_board_back(global_var.magnet_flag)
         global_var.LAST_TIME = time()
         drag_bullets_move()
         mando.check_collision()
