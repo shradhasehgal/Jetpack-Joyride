@@ -139,6 +139,20 @@ class Mando(Object):
                 for j in range(self._height):
                     global_var.mp.matrix[j+self._posy][i+self._posx] = self._shape[j][i]
 
+
+    def bullet_col(self, dragon_bullets):
+        i = 0
+        no_bullets = len(dragon_bullets)
+
+        while i < no_bullets:
+            if dragon_bullets[i].check_mando_collision() == 1:
+                dragon_bullets[i].clear()
+                del(dragon_bullets[i])
+                no_bullets -= 1
+            else:
+                i += 1
+
+
     
     def check_collision(self):
 
@@ -212,6 +226,7 @@ class Bullet(Object):
                     global_funct.clear_beam(self._posx, self._posy)
                     global_var.mando.inc_score(5)
 
+    
     def check_drag_collision(self):
         flag = 1
         for i in range(len(config.dragon[0])):
@@ -223,6 +238,8 @@ class Bullet(Object):
 
         if flag == 0:
             return 1 
+
+
 
 class Dragon(Object):
 
@@ -265,6 +282,38 @@ class Dragon(Object):
     def collision(self):
         self._lives -= 1
         self.print_lives()
+
+    def drag_bullets_move(self, dragon_bullets):
+        i = 0
+        no_bullets = len(dragon_bullets)
+
+        while i < no_bullets:
+            dragon_bullets[i].clear()
+            if dragon_bullets[i].xget() >= global_var.mp.start_index:
+                dragon_bullets[i].xset(-1)
+                i += 1
+
+            else:
+                del(dragon_bullets[i])
+                no_bullets -=1
+        
+        i = 0
+        while i < no_bullets:
+            dragon_bullets[i].render()
+            i += 1
+
+        
+    def bullet_col(self, bullets):
+        i = 0
+        no_bullets = len(bullets)
+
+        while i < no_bullets:
+            if bullets[i].check_drag_collision() == 1:
+                bullets[i].clear()
+                del(bullets[i])
+                no_bullets -= 1
+            else:
+                i += 1
 
 class Dragon_Bullet(Object):
 

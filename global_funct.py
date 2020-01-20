@@ -6,6 +6,7 @@ from colorama import Fore, Back, Style
 import objects
 from time import time
 
+
 def create_header():
     print("\033[2;1H" + Fore.WHITE + Back.BLUE + Style.BRIGHT + ("SCORE: " + str(global_var.mando.score()) + "   |  COINS: " + str(global_var.mando.coins()) + "   |  LIVES: " + str(global_var.mando.lives()) + "   |  TIME: " +str(global_var.TIME_REM))  .center(config.columns), end='')
     print(Style.RESET_ALL)
@@ -79,8 +80,12 @@ def create_board():
 
         x += random.randint(20, 50)
 
+def initialize_board():
 
-
+    create_board()
+    global_var.mando.render()
+    global_var.mando.render()
+    print_board()
 
         
 def clear_beam(x, y):
@@ -133,3 +138,25 @@ def check_speedup_time():
         global_var.mp.set_speedup_flag(0)
         global_var.mp.set_speed(global_var.BOARD_SPEED)
         global_var.mp.set_bullet_speed(global_var.BULLET_SPEED)
+
+
+
+def bullets_move(bullets):
+    i = 0
+    no_bullets = len(bullets)
+
+    while i < no_bullets:
+        bullets[i].clear()
+        if bullets[i].xget() < global_var.mp.start_index + config.columns:
+            bullets[i].xset(2)
+            bullets[i].check_collision()
+            i += 1
+
+        else:
+            del(bullets[i])
+            no_bullets -=1
+    
+    i = 0
+    while i < no_bullets:
+        bullets[i].render()
+        i += 1
