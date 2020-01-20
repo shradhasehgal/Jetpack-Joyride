@@ -184,3 +184,8 @@ def move_with_magnet(mando):
         mando.xset(1)
         
     global_var.mp.start_index += 1
+
+def mag_reset():
+    for mag in global_var.magnets:
+        mag.clear()
+        mag.render()

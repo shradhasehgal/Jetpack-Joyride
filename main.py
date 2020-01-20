@@ -35,6 +35,7 @@ while True:
     global_var.mp.magnet_check(global_var.magnets)
 
     if time() - global_var.LAST_TIME > global_var.mp.get_speed():
+        global_funct.mag_reset()
         if global_var.mp.get_magnet_flag() == 1:
             move_with_magnet(mando)
         else:
