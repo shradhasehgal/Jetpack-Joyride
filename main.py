@@ -61,7 +61,4 @@ while True:
     dragon.render()
     global_funct.print_board()
         
-    if dragon.get_lives() == 0:
-        message = "You won!"
-        global_funct.display_ending(message)
-        quit()
+

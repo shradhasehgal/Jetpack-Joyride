@@ -106,12 +106,12 @@ def clear_boost(x, y):
 
 def clear_magnet(x, y):
     x -= 5
-    y -= 2
+    y -= 1
 
-    for i in range(6):
-        for j in range(2):
-            if global_var.mp.matrix[y+i][x+j] == "M":
-                global_var.mp.matrix[y+i][x+j] = " "
+    for i in range(10):
+        for j in range(3):
+            if global_var.mp.matrix[y+j][x+i] == "M":
+                global_var.mp.matrix[y+j][x+i] = " "
 
 
 def remove_shield():

@@ -15,7 +15,7 @@ class Map(object):
         self.matrix = np.array([[" " for i in range(self.width)] for j in range(self.height)])
         self.create_sky()
         self.create_ground()
-        self._speed = 0.1
+        self._speed = 0.007
         self._speedup_flag = 0
         self._speedup_time = 0
         self._bullet_speed = 0.04
@@ -63,8 +63,21 @@ class Map(object):
                 elif y == self.height - 1:
                     pr.append(Fore.LIGHTMAGENTA_EX + Style.BRIGHT+(self.matrix[y][x] + Style.RESET_ALL))
                 
-                elif global_var.mando.get_shield() == 1 and x >= global_var.mando.xget() and x <= global_var.mando.xget() + 2 and y >= global_var.mando.yget() and y <= global_var.mando.yget() + 2:
+                elif global_var.mp.start_index <= 980 and global_var.mando.get_shield() == 1 and x >= global_var.mando.xget() and x <= global_var.mando.xget() + 2 and y >= global_var.mando.yget() and y <= global_var.mando.yget() + 2:
                     pr.append(Fore.LIGHTGREEN_EX + Style.BRIGHT +(self.matrix[y][x] + Style.RESET_ALL))
+                
+                # elif self.matrix[y][x] == "#":
+                #     pr.append(Fore.LIGHTRED_EX + Style.BRIGHT +(self.matrix[y][x] + Style.RESET_ALL))
+
+                # elif self.matrix[y][x] == "$":
+                #     pr.append(Fore.LIGHTYELLOW_EX + Style.BRIGHT +(self.matrix[y][x] + Style.RESET_ALL))
+                
+                # elif self.matrix[y][x] == "B":
+                #     pr.append(Fore.BLUE + Style.BRIGHT +(self.matrix[y][x] + Style.RESET_ALL))
+                
+                # elif self.matrix[y][x] == "M":
+                #     pr.append(Fore.LIGHTCYAN_EX + Style.BRIGHT +(self.matrix[y][x] + Style.RESET_ALL))
+                
                 else:
                     pr.append(self.matrix[y][x] + Style.RESET_ALL)
             print(''.join(pr))

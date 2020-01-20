@@ -2,6 +2,7 @@ import global_var
 import global_funct
 import config
 from time import time,sleep
+import random
 
 class Object():
     
@@ -165,7 +166,12 @@ class Mando(Object):
 
                 elif global_var.mp.matrix[j+self._posy][i+self._posx] == "#" or global_var.mp.matrix[j+self._posy][i+self._posx] == "M" or global_var.mp.matrix[j+self._posy][i+self._posx] == "o": 
                     if self.__shield == 1:
-                        global_funct.clear_beam(self._posx + i, self._posy+j)
+                        if global_var.mp.matrix[j+self._posy][i+self._posx] == "#":
+                            global_funct.clear_beam(self._posx + i, self._posy+j)
+
+                        if global_var.mp.matrix[j+self._posy][i+self._posx] == "M":
+                            global_funct.clear_magnet(self._posx + i, self._posy+j)
+
                         self.__score += 5
 
                     elif self.__lives > 1:
@@ -177,7 +183,6 @@ class Mando(Object):
                             self._posy = global_var.mando_ground
                         else:
                             self._posx = global_var.mp.start_index + 5
-                            self._posy = 5
                             return
 
 
@@ -286,9 +291,9 @@ class Dragon(Object):
 
     def collision(self):
         self.__lives -= 1
-        self.print_lives()
         if self.__lives == 0:
-            message = "You won!"
+            global_var.mando.inc_score(30)
+            message = "You defeated the boss! You won!"
             global_funct.display_ending(message)
             quit()
 
@@ -318,7 +323,8 @@ class Dragon(Object):
 
         while i < no_bullets:
             if bullets[i].check_drag_collision() == 1:
-                print(self.__lives)
+                # print(self.__lives)
+                self.print_lives()
                 bullets[i].clear()
                 del(bullets[i])
                 no_bullets -= 1
@@ -326,7 +332,8 @@ class Dragon(Object):
                 i += 1
 
     def throw_bullet(self, dragon_bullets):
-        drag_bullet = Dragon_Bullet(["o"], self._posx -1, self._posy +3)
+        ycoord = random.randint(self._posy + 5 ,self._posy + 12)
+        drag_bullet = Dragon_Bullet(["o"], self._posx -1, ycoord)
         drag_bullet.render()
         dragon_bullets.append(drag_bullet)
         self.set_bullet_time(time())
