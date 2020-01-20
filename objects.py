@@ -169,7 +169,8 @@ class Mando(Object):
 
 
                     else:
-                        print("Oops, you lost!")
+                        message = "Oops, you lost!"
+                        global_funct.display_ending(message)
                         quit()                
 
                 elif global_var.mp.matrix[j+self._posy][i+self._posx] == "B":
@@ -278,6 +279,10 @@ class Dragon_Bullet(Object):
             for j in range(len(config.mando)):  
                 if global_var.mando.yget()+j == self._posy and global_var.mando.xget()+i == self._posx:
                     global_var.mando.red_lives()
+                    if global_var.mando.lives() == 0:
+                        message = "Ded"
+                        global_funct.display_ending(message)
+                        quit()
                     # global_var.mando.ydset(40)
                     global_var.mando.xdset(global_var.mp.start_index + 5)
                     self._foo = 1

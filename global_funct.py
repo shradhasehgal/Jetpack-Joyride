@@ -14,6 +14,17 @@ def print_board():
     create_header()
     global_var.mp.render()
 
+def display_ending(message):
+    os.system('tput reset')
+    print(Fore.CYAN + Style.BRIGHT + "FINAL STANDINGS:".center(config.columns))
+    print(Style.RESET_ALL)
+    print(Fore.CYAN + Style.BRIGHT + ("SCORE: " + str(global_var.mando.score())).center(config.columns))
+    print(Style.RESET_ALL)
+    print(Fore.CYAN + Style.BRIGHT + ("LIVES: " + str(global_var.mando.lives())).center(config.columns))
+    print(Style.RESET_ALL)
+    print(Fore.CYAN + Style.BRIGHT + (message).center(config.columns))
+    print(Style.RESET_ALL)
+    return
 
 
 bullets = []
@@ -39,7 +50,7 @@ def create_board():
         enemy.render()
         
         #magnets
-        if i % 10 == 0:
+        if i % 3 == 0:
             magnet = objects.Object(config.magnet, x + 10 , y)
             magnets.append(magnet)
             magnet.render()
@@ -108,10 +119,13 @@ def allow_shield():
     if global_var.mando.get_shield_allow() == 0 and time() - global_var.mando.get_shield_time() > 70:
         global_var.mando.set_shield_allow(1)
 
-def move_board_back():
+def move_board_back(magnet_flag):
     if global_var.mp.start_index < global_var.mp.width - 200:
         global_var.mp.start_index += 1
-        global_var.mando.xset(1)
+
+        print(magnet_flag)
+        if magnet_flag == 0:
+            global_var.mando.xset(1)
 
 def gravity():
     global_var.mando.yset(global_var.mando.get_fall_speed())

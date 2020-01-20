@@ -61,7 +61,8 @@ def movedin():
         bullets.append(bullet)
 
     if char == 'q':
-        print("Don't quit :(")
+        message = "Y U Quit :'("
+        global_funct.display_ending(message)
         quit()
 
 def bullets_move():
@@ -150,34 +151,52 @@ while True:
     check_speedup_time()
     mando.clear()
 
+    movedin()
+    mando.check_collision()
 
     magnet_flag = 0
+    magnet_right = 0
     for mag in global_funct.magnets:
-        if mando.xget() >= mag.xget()-5 and mando.xget() <= mag.xget() + 5:
+        if mag.xget() >= global_var.mp.start_index and mag.xget() <= global_var.mp.start_index + config.columns:
             magnet_flag = 1
-            if mag.yget() < mando.yget():
-                magnet_up = 1
+            if mag.xget() >= mando.xget():
+                magnet_right = 1
             else:
-                magnet_up = 0
+                magnet_right = 0
+    # for mag in global_funct.magnets:
+    #     if mando.xget() >= mag.xget()-5 and mando.xget() <= mag.xget() + 5:
+    #         magnet_flag = 1
+    #         if mag.yget() < mando.yget():
+    #             magnet_up = 1
+    #         else:
+    #             magnet_up = 0
              
+
+    # if magnet_flag == 1 and time() - mag_time > global_var.MAGNET_SPEED:
+    #     mag_time = time()
+    #     if magnet_up == 1:
+    #         if mando.yget() >= 5:
+    #             mando.yset(-1)
+
+    #     else:
+    #         mando.yset(1)
+
 
     if magnet_flag == 1 and time() - mag_time > global_var.MAGNET_SPEED:
         mag_time = time()
-        if magnet_up == 1:
-            if mando.yget() >= 5:
-                mando.yset(-1)
-
+        if magnet_right == 1:
+            if mando.xget() < global_var.mp.start_index + config.columns - 5:
+                mando.xset(1)
         else:
-            mando.yset(1)
+            if mando.xget() > global_var.mp.start_index + 5:
+                mando.xset(-1)
 
     mando.check_collision()
 
-    movedin()
-    mando.check_collision()
+
     # mando.check_magnet()
 
-
-    if magnet_flag == 0 and mando.yget() < global_var.mando_ground:
+    if mando.yget() < global_var.mando_ground:
         t = time() - mando.get_air_time()
         posn = int(mando.get_air_pos() + 5*t*t)
         if posn > global_var.mando_ground:
@@ -185,6 +204,15 @@ while True:
 
         mando.ydset(posn)
         mando.check_collision()
+
+    # if magnet_flag == 0 and mando.yget() < global_var.mando_ground:
+    #     t = time() - mando.get_air_time()
+    #     posn = int(mando.get_air_pos() + 5*t*t)
+    #     if posn > global_var.mando_ground:
+    #         posn = global_var.mando_ground
+
+    #     mando.ydset(posn)
+    #     mando.check_collision()
 
     if time() - bullet_time > global_var.mp.get_bullet_speed():
         # print(global_var.mp.get_bullet_speed())
@@ -194,7 +222,7 @@ while True:
 
     if time() - global_var.LAST_TIME > global_var.mp.get_speed():
         # print(global_var.mp.get_speed())
-        move_board_back()
+        move_board_back(magnet_flag)
         global_var.LAST_TIME = time()
         drag_bullets_move()
         mando.check_collision()
@@ -224,5 +252,6 @@ while True:
     global_funct.print_board()
         
     if dragon.get_lives() == 0:
-        print("You won!")
+        message = "You won!"
+        global_funct.display_ending(message)
         quit()
