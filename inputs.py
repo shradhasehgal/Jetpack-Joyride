@@ -1,6 +1,6 @@
 from getch import KBHit
 from global_var import mando, dragon
-from global_funct import remove_shield, allow_shield, move_board_back, check_speedup_time, bullets
+from global_funct import remove_shield, allow_shield, move_board_back, check_speedup_time
 import global_var
 import global_funct
 import config
@@ -21,7 +21,7 @@ def movedin():
         if mando.xget() > global_var.mp.start_index + 4:
             mando.xset(-1)
 
-    if char == 'w' and global_var.magnet_flag == 0:
+    if char == 'w':
         if mando.yget() >= 5:
             mando.yset(-1)
             mando.set_air_pos(mando.yget())
@@ -35,7 +35,7 @@ def movedin():
     if char == 'e':
         bullet = objects.Bullet(config.bullet, mando.xget() + 4, mando.yget()+1)
         bullet.render()
-        bullets.append(bullet)
+        global_var.bullets.append(bullet)
 
     if char == 'q':
         message = "Y U Quit :'("

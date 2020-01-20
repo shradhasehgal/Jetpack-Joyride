@@ -27,14 +27,6 @@ def display_ending(message):
     print(Style.RESET_ALL)
     return
 
-
-bullets = []
-beams = []
-magnets = []
-coins = []
-boosts = []
-dragon_bullets = []
-
 def create_board():
 
     i = 1
@@ -48,13 +40,13 @@ def create_board():
         
         #beams
         enemy = objects.Object(config.enemy[no], x, y)
-        beams.append(enemy)
+        global_var.beams.append(enemy)
         enemy.render()
         
         #magnets
         if i % 3 == 0:
             magnet = objects.Object(config.magnet, x + 10 , y)
-            magnets.append(magnet)
+            global_var.magnets.append(magnet)
             magnet.render()
         
         i += 1
@@ -66,7 +58,7 @@ def create_board():
 
         #coins
         coin = objects.Object(config.coins, x, y)
-        coins.append(coin)
+        global_var.coins.append(coin)
         coin.render()
 
 
@@ -75,7 +67,7 @@ def create_board():
         
         #boost
         boost = objects.Object(config.boost, x, y)
-        boosts.append(boost)
+        global_var.boosts.append(boost)
         boost.render()
 
         x += random.randint(20, 50)
@@ -86,6 +78,11 @@ def initialize_board():
     global_var.mando.render()
     global_var.mando.render()
     print_board()
+    global_var.LAST_TIME = time()
+    global_var.TIME_BEGUN = round(global_var.LAST_TIME)
+    global_var.BULLET_TIME = global_var.LAST_TIME
+    config.create_dragon() 
+
 
         
 def clear_beam(x, y):
@@ -125,13 +122,10 @@ def allow_shield():
     if global_var.mando.get_shield_allow() == 0 and time() - global_var.mando.get_shield_time() > 70:
         global_var.mando.set_shield_allow(1)
 
-def move_board_back(magnet_flag):
+def move_board_back():
     if global_var.mp.start_index < global_var.mp.width - 200:
-        global_var.mp.start_index += 1
-
-        print(magnet_flag)
-        if magnet_flag == 0:
-            global_var.mando.xset(1)
+        global_var.mp.start_index += 1  
+        global_var.mando.xset(1)
 
 def check_speedup_time():
     if global_var.mp.get_speedup_flag() == 1 and time() - global_var.mp.get_speedup_time() > 10:
@@ -160,3 +154,30 @@ def bullets_move(bullets):
     while i < no_bullets:
         bullets[i].render()
         i += 1
+
+def gravity(mando):
+    
+    if mando.yget() < global_var.mando_ground:
+        t = time() - mando.get_air_time()
+        posn = int(mando.get_air_pos() + 5*t*t)
+        if posn > global_var.mando_ground:
+            posn = global_var.mando_ground
+
+        mando.ydset(posn)
+        mando.check_collision()
+
+def move_bullets(bullets):
+    if time() - global_var.BULLET_TIME > global_var.mp.get_bullet_speed():
+        bullets_move(bullets)
+        global_var.BULLET_TIME = time()
+
+def move_with_magnet(mando):
+
+    if global_var.mp.get_magnet_right() == 1:
+        if mando.xget() < global_var.mp.start_index + config.columns - 5:
+            mando.xset(2)
+        
+    elif mando.xget() < global_var.mp.start_index + 5:
+        mando.xset(1)
+        
+    global_var.mp.start_index += 1

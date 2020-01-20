@@ -26,3 +26,12 @@ MAGNET_SPEED = 0.02
 
 message = ""
 magnet_flag = 0
+
+bullets = []
+beams = []
+magnets = []
+coins = []
+boosts = []
+dragon_bullets = []
+
+BULLET_TIME = 0

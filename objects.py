@@ -278,6 +278,12 @@ class Dragon(Object):
             self._shape[0][17-i] = " "
             i -= 1
 
+    def set_pos_to_mando(self, mando):
+        if mando.yget() <= 36:
+            self.ydset(mando.yget())
+        else:
+            self.ydset(36)  
+
 
     def collision(self):
         self._lives -= 1
@@ -314,6 +320,12 @@ class Dragon(Object):
                 no_bullets -= 1
             else:
                 i += 1
+
+    def throw_bullet(self, dragon_bullets):
+        drag_bullet = Dragon_Bullet(["o"], self._posx -1, self._posy +3)
+        drag_bullet.render()
+        dragon_bullets.append(drag_bullet)
+        self.set_bullet_time(time())
 
 class Dragon_Bullet(Object):
 

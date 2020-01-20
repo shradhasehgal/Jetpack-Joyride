@@ -15,10 +15,12 @@ class Map(object):
         self.matrix = np.array([[" " for i in range(self.width)] for j in range(self.height)])
         self.create_sky()
         self.create_ground()
-        self._speed = 0.01
+        self._speed = 0.1
         self._speedup_flag = 0
         self ._speedup_time = 0
         self ._bullet_speed = 0.04
+        self._magnet_flag = 0
+        self._magnet_right = 0
 
     def set_speed(self, x):
         self._speed = x
@@ -70,3 +72,19 @@ class Map(object):
         for x in range(self.width):
             self.matrix[3][x] = "X"
         
+    def magnet_check(self, magnets):
+        self._magnet_flag = 0
+        for mag in magnets:
+            if mag.xget() >= global_var.mp.start_index and mag.xget() <= global_var.mp.start_index + config.columns:
+                self._magnet_flag = 1
+                if mag.xget() > global_var.mando.xget():
+                    self._magnet_right = 1
+                else:
+                    self._magnet_right = 0
+
+    
+    def get_magnet_flag(self):
+        return self._magnet_flag
+    
+    def get_magnet_right(self):
+        return self._magnet_right
