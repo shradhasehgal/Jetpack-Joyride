@@ -17,16 +17,23 @@ class Map(object):
         self.create_ground()
         self._speed = 0.1
         self._speedup_flag = 0
-        self ._speedup_time = 0
-        self ._bullet_speed = 0.04
+        self._speedup_time = 0
+        self._bullet_speed = 0.04
         self._magnet_flag = 0
         self._magnet_right = 0
+        self._step = 1
 
     def set_speed(self, x):
         self._speed = x
 
     def get_speed(self):
         return self._speed
+
+    def set_step(self, x):
+        self._step = x
+
+    def get_step(self):
+        return self._step
 
     def get_bullet_speed(self):
         return self._bullet_speed

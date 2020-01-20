@@ -44,7 +44,7 @@ def create_board():
         enemy.render()
         
         #magnets
-        if i % 3 == 0:
+        if i % 5 == 0:
             magnet = objects.Object(config.magnet, x + 10 , y)
             global_var.magnets.append(magnet)
             magnet.render()
@@ -124,14 +124,17 @@ def allow_shield():
 
 def move_board_back():
     if global_var.mp.start_index < global_var.mp.width - 200:
-        global_var.mp.start_index += 1  
+        global_var.mp.start_index += 1 
         global_var.mando.xset(1)
+
 
 def check_speedup_time():
     if global_var.mp.get_speedup_flag() == 1 and time() - global_var.mp.get_speedup_time() > 10:
         global_var.mp.set_speedup_flag(0)
         global_var.mp.set_speed(global_var.BOARD_SPEED)
         global_var.mp.set_bullet_speed(global_var.BULLET_SPEED)
+        global_var.mp.set_step(1)
+
 
 
 
