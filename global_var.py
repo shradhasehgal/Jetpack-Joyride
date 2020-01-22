@@ -33,5 +33,6 @@ magnets = []
 coins = []
 boosts = []
 dragon_bullets = []
+dg_power_up = []
 
 BULLET_TIME = 0

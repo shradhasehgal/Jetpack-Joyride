@@ -192,6 +192,7 @@ class Mando(Object):
                     self.__dragon_flag = 1
                     global_funct.clear_boost(self._posx + i, self._posy+j)
                     self.change_shape()
+                    global_var.dg_power_up[0].clear()
 
 
                 elif global_var.mp.matrix[j+self._posy][i+self._posx] == "#" or global_var.mp.matrix[j+self._posy][i+self._posx] == "M" or global_var.mp.matrix[j+self._posy][i+self._posx] == "o": 

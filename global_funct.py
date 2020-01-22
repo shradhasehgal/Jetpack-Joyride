@@ -29,7 +29,7 @@ def display_ending(message):
 
 def create_board():
 
-    i = 0
+    i = 1
     x = 10
 
     
@@ -46,6 +46,7 @@ def create_board():
         #dragon power up
         if i % 10 == 0:
             dg_pow_up = objects.Object(config.dg_pow_up, x + 10 , y)
+            global_var.dg_power_up.append(dg_pow_up)
             dg_pow_up.render()
 
         #magnets
