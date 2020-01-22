@@ -189,6 +189,9 @@ class Mando(Object):
         for i in range(self._width):
             for j in range(self._height):
                 
+                if j+self._posy >= 50:
+                    continue
+            
                 if global_var.mp.matrix[j+self._posy][i+self._posx] == "$":
                     self.__coins += 1
                     self.__score += 1
@@ -212,8 +215,10 @@ class Mando(Object):
                         self.__score += 5
 
                     elif self.__dragon_flag ==1:
+                        self._posy = 5
                         self.__dragon_flag = 0
                         self.change_shape()
+                        return
 
                     elif self.__lives > 1:
                         self.__lives -= 1
@@ -233,6 +238,7 @@ class Mando(Object):
                         message = "Oops, you lost!"
                         global_funct.display_ending(message)
                         quit()                
+                    return
 
                 elif global_var.mp.matrix[j+self._posy][i+self._posx] == "B":
                     global_funct.clear_boost(self._posx, self._posy)

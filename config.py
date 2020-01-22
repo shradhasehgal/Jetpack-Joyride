@@ -37,7 +37,7 @@ enemy = [
 
 magnet = [ ["M", "M", "M", "M"], ["M", "M", "M", "M"] ]
 
-dg_pow_up = [ ["D", "D"], ["D", "D"] ]
+dg_pow_up = [ ["D", "D"]]
 # magnet = [ ["M"], ["M"], ["M"]]
 
 

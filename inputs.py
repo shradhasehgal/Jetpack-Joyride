@@ -14,7 +14,7 @@ def movedin():
     char = kb.getinput()
 
     if char == 'd':
-        if mando.xget() <= global_var.mp.start_index + config.columns - 6 and mando.xget() <= 1090:
+        if mando.xget() <= global_var.mp.start_index + config.columns - 4 - mando.get_width() and mando.xget() <= 1090:
             mando.xset(1)
 
     if char == 'a':
