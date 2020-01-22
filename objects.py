@@ -277,7 +277,7 @@ class Bullet(Object):
         for i in range(self._width):
             for j in range(self._height):    
                 if global_var.mp.matrix[j+self._posy][i+self._posx] == "#":
-                    global_funct.clear_beam(self._posx, self._posy)
+                    global_funct.clear_beam(self._posx+i, self._posy+j)
                     global_var.mando.inc_score(5)
 
     

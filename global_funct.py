@@ -92,8 +92,8 @@ def initialize_board():
 
         
 def clear_beam(x, y):
-    x -= 3 
-    y -= 3
+    x -= 4
+    y -= 4
     for i in range(9):
         for j in range(9):
             if global_var.mp.matrix[y+i][x+j] == "#":
