@@ -39,6 +39,75 @@ Inherited from Object class, it has functions to check collisions with Mando.
 
 __________________
 
+Concepts used
+--------------------------------------------
+
+#### Inheritance:
+
+Inheritance allows us to define a class that inherits all the methods and properties from another class. 
+A base class `Object` has been declared from which multiple elements are inherited.
+
+```
+class Object():
+    
+    def __init__(self, character, x, y):
+        self._posx = x
+        self._posy = y
+        self._width = len(character[0])
+        self._height = len(character)
+        self._shape = character
+```
+
+#### Polymorphism
+
+Polymorphism allows us to define methods in the child class with the same name as defined in their parent class. 
+eg. 
+
+```python
+class Object():
+    ...
+    def render(self):
+        for i in range(self._width):
+            for j in range(self._height):
+                # print(j+self._posy, i+self._posx)
+                global_var.mp.matrix[j+self._posy][i+self._posx] = self._shape[j][i]
+```
+```python
+
+class Mando(Object):
+    def render(self):
+        if self.__shield == 1:
+            for i in range(self._width):
+                for j in range(self._height):
+                    global_var.mp.matrix[j+self._posy][i+self._posx] = self._shape[j][i]
+        
+        else:
+            for i in range(self._width):
+                for j in range(self._height):
+                    global_var.mp.matrix[j+self._posy][i+self._posx] = self._shape[j][i]
+```
+
+#### Encapsulation
+
+The idea of wrapping data and the methods that work on data within one unit. Prevents accidental modification of data.
+Implemented many classes and objects for the same.
+
+#### Abstraction
+
+Abstraction means hiding the complexity and only showing the essential features of the object.
+
+```python
+
+def My_Dragon(Object):
+    ...
+    def move(self):
+        self.clear()
+        self._posx += 1
+        self.change_shape()
+        self.render()
+```
+.move() is an abstraction
+
 How To Play:
 ------------------
 >- Run `pip3 install requirements.txt`
