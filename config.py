@@ -104,9 +104,12 @@ def create_mydragon(phase):
 
     mando_dragon.append(p)
 
-  for i in range(29):
+  for i in range(27):
     mando_dragon[my[i]+4][i] = "~"
   
-  mando_dragon[my[29]+4][29] = "@"
+  mando_dragon[my[26]+4][26] = "@"
+  mando_dragon[my[27]+4][27] = ">"
+  mando_dragon[my[28]+4][28] = ">"
+  mando_dragon[my[29]+4][29] = ">"
 
   return mando_dragon

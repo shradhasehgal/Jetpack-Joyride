@@ -63,7 +63,7 @@ class Map(object):
                 elif y == self.height - 1:
                     pr.append(Fore.LIGHTMAGENTA_EX + Style.BRIGHT+(self.matrix[y][x] + Style.RESET_ALL))
                 
-                elif global_var.mp.start_index <= 980 and global_var.mando.get_shield() == 1 and x >= global_var.mando.xget() and x <= global_var.mando.xget() + 2 and y >= global_var.mando.yget() and y <= global_var.mando.yget() + 2:
+                elif global_var.mp.start_index <= 980 and global_var.mando.get_shield() == 1 and x >= global_var.mando.xget() and x < global_var.mando.xget() +  global_var.mando.get_width() and y >= global_var.mando.yget() and y < global_var.mando.yget() + global_var.mando.get_height():
                     pr.append(Fore.LIGHTGREEN_EX + Style.BRIGHT +(self.matrix[y][x] + Style.RESET_ALL))
                 
                 # elif self.matrix[y][x] == "#":

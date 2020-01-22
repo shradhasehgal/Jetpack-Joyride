@@ -86,6 +86,12 @@ class Mando(Object):
     def inc_score(self, x):
         self.__score += x
     
+    def get_width(self):
+        return self._width
+
+    def get_height(self):
+        return self._height
+
     def set_shield(self, x):
         self.__shield = x
 
