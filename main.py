@@ -12,8 +12,6 @@ import inputs
 
 
 global_funct.initialize_board()
-# mo = objects.My_Dragon(config.create_mydragon(0), 10, 10)
-# mo.render()
 
 while True:
 
