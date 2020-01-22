@@ -131,17 +131,23 @@ class Mando(Object):
     def set_under_magnet(self, x):
         self.__under_magnet = x
 
+    def get_dragon_flag(self):
+        return self.__dragon_flag
+
     def change_shape(self):
         chas = ""
         if self.__dragon_flag == 0:
             chas = config.mando
             self._shape = chas
             self.__phase = 0
-            
+            global_var.mando_ground = global_var.mp.height - len(config.mando) - 1            
+        
         else:
             self.__phase += 1
             chas = config.create_mydragon(self.__phase)
+            global_var.mando_ground = global_var.mp.height - len(chas) - 1  
             self._shape = chas
+
         
         self._width = len(chas[0])
         self._height = len(chas)
@@ -184,7 +190,7 @@ class Mando(Object):
 
                 if global_var.mp.matrix[j+self._posy][i+self._posx] == "D":
                     self.__dragon_flag = 1
-                    global_funct.clear_magnet(self._posx + i, self._posy+j)
+                    global_funct.clear_boost(self._posx + i, self._posy+j)
                     self.change_shape()
 
 
@@ -197,6 +203,10 @@ class Mando(Object):
                             global_funct.clear_magnet(self._posx + i, self._posy+j)
 
                         self.__score += 5
+
+                    elif self.__dragon_flag ==1:
+                        self.__dragon_flag = 0
+                        self.change_shape()
 
                     elif self.__lives > 1:
                         self.__lives -= 1

@@ -29,7 +29,7 @@ def display_ending(message):
 
 def create_board():
 
-    i = 1
+    i = 0
     x = 10
 
     
