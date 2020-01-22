@@ -12,6 +12,8 @@ import inputs
 
 
 global_funct.initialize_board()
+# mo = objects.My_Dragon(config.create_mydragon(0), 10, 10)
+# mo.render()
 
 while True:
 
@@ -20,6 +22,7 @@ while True:
         message = "Time over!"
         global_funct.display_ending(message)
         break
+
 
     remove_shield()
     allow_shield()

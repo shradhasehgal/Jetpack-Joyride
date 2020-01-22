@@ -59,6 +59,8 @@ class Mando(Object):
         self .__air_time = 0
         self.__air_pos = 0
         self.__under_magnet = 0
+        self.__dragon_flag = 0
+        self.__phase = 0
 
     # def xset(self, x):
     #     self._posx += x
@@ -129,6 +131,22 @@ class Mando(Object):
     def set_under_magnet(self, x):
         self.__under_magnet = x
 
+    def change_shape(self):
+        chas = ""
+        if self.__dragon_flag == 0:
+            chas = config.mando
+            self._shape = chas
+            self.__phase = 0
+            
+        else:
+            self.__phase += 1
+            chas = config.create_mydragon(self.__phase)
+            self._shape = chas
+        
+        self._width = len(chas[0])
+        self._height = len(chas)
+        
+        
     def render(self):
         if self.__shield == 1:
             for i in range(self._width):
@@ -163,6 +181,12 @@ class Mando(Object):
                     self.__coins += 1
                     self.__score += 1
                     global_var.mp.matrix[j+self._posy][i+self._posx] = " "
+
+                if global_var.mp.matrix[j+self._posy][i+self._posx] == "D":
+                    self.__dragon_flag = 1
+                    global_funct.clear_magnet(self._posx + i, self._posy+j)
+                    self.change_shape()
+
 
                 elif global_var.mp.matrix[j+self._posy][i+self._posx] == "#" or global_var.mp.matrix[j+self._posy][i+self._posx] == "M" or global_var.mp.matrix[j+self._posy][i+self._posx] == "o": 
                     if self.__shield == 1:
@@ -360,3 +384,20 @@ class Dragon_Bullet(Object):
                     break                
 
         return self .__foo
+
+    
+class My_Dragon(Object):
+
+    def __init__(self, character ,x, y):
+        super().__init__(character, x, y)
+        self.__phase = 0
+
+    def change_shape(self):
+        self.__phase += 1
+        self._shape = config.create_mydragon(self.__phase)
+
+    def move(self):
+        self.clear()
+        self._posx += 1
+        self.change_shape()
+        self.render()

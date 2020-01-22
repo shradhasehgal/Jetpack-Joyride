@@ -43,8 +43,13 @@ def create_board():
         global_var.beams.append(enemy)
         enemy.render()
         
+        #dragon power up
+        if i % 10 == 0:
+            dg_pow_up = objects.Object(config.dg_pow_up, x + 10 , y)
+            dg_pow_up.render()
+
         #magnets
-        if i % 5 == 0:
+        elif i % 5 == 0:
             magnet = objects.Object(config.magnet, x + 10 , y)
             global_var.magnets.append(magnet)
             magnet.render()
